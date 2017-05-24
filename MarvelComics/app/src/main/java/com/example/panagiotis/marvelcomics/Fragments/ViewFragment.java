@@ -2,11 +2,14 @@ package com.example.panagiotis.marvelcomics.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.panagiotis.marvelcomics.Adapter.Adapter;
 import com.example.panagiotis.marvelcomics.Contract.IContract;
 import com.example.panagiotis.marvelcomics.Contract.Presenter;
 import com.example.panagiotis.marvelcomics.R;
@@ -19,6 +22,7 @@ public class ViewFragment extends Fragment implements IContract.IView {
 
     @BindView(R.id.recycleView)
     RecyclerView recyclerView;
+    Adapter adapter;
 
     IContract.IPresenter iPresenter;
 
@@ -38,12 +42,18 @@ public class ViewFragment extends Fragment implements IContract.IView {
 
     @Override
     public void showComics() {
-
+        adapter=new Adapter(R.layout.row,getActivity());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void showFilterComics() {
-
+        adapter=new Adapter(R.layout.row,getActivity());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
