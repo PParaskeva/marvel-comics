@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.panagiotis.marvelcomics.Fragments.price_fragment">
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:id="@+id/min_editText"
+        android:hint="Min" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:layout_below="@+id/min_editText"
+        android:layout_alignRight="@+id/min_editText"
+        android:layout_alignEnd="@+id/min_editText"
+        android:layout_marginTop="71dp"
+        android:id="@+id/Max_editText"
+        android:hint="Max" />
+
+    <Button
+        android:text="Search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Max_editText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="82dp"
+        android:id="@+id/search_button" />
+</RelativeLayout>

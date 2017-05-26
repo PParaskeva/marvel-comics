@@ -13,63 +13,50 @@ import android.widget.TextView;
 import com.example.panagiotis.marvelcomics.Fragments.DetailFragment;
 import com.example.panagiotis.marvelcomics.MainActivity;
 import com.example.panagiotis.marvelcomics.R;
-import com.example.panagiotis.marvelcomics.pojos.Example;
+import com.example.panagiotis.marvelcomics.Realm.ComicsRealm;
 import com.example.panagiotis.marvelcomics.utils.ItemClickListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.RealmResults;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+public class Adapter2 extends RecyclerView.Adapter<Adapter2.ViewHolder> {
 
-    int row;
     Context context;
-    Example example;
+    int row;
+    RealmResults<ComicsRealm> results;
     MainActivity mainActivity;
 
-    public Adapter(int row, Context context, Example example,MainActivity mainActivity) {
-        this.row = row;
+    public Adapter2(Context context, int row, RealmResults<ComicsRealm> results,MainActivity mainActivity) {
         this.context = context;
-        this.example = example;
+        this.row = row;
+        this.results = results;
         this.mainActivity=mainActivity;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(parent.getContext()).inflate(row,parent,false);
-        return new Adapter.ViewHolder(v);
+        return new Adapter2.ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.ComicName.setText(results.get(position).getName()+"\n"+results.get(position).getPrice()+"\n");
 
-//        System.out.println(example
-//                .getData()
-//                .getResults()
-//                .get(position)
-//                .getThumbnail().getPath());
-        holder.ComicName.setText(example.getData().getResults().get(position).getTitle()
-        +"\n"+example.getData().getResults().get(position).getPrices().get(0).getPrice()+"\n");
-
-//        Picasso.with(context)
-//                .load(example
-//                        .getData().getResults().get(position).get
-//                .resize(50, 50)
-//                .centerCrop()
-//                .into(holder.ComicImage);
         holder.setClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
                 if(!isLongClick){
-                    mainActivity.fragmentTransfer(new DetailFragment(),example.getData().getResults().get(position).getId().toString()+"/");
+                    mainActivity.fragmentTransfer(new DetailFragment(),results.get(position).getId());
                 }
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return example.getData().getResults().size();
+        return results.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -87,9 +74,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             ButterKnife.bind(this,itemView);
             ComicImage.setVisibility(View.GONE);
             relativeLayout.setOnClickListener(this);
-
         }
-
         public void setClickListener(ItemClickListener itemClickListener){
             this.itemClickListener=itemClickListener;
         }

@@ -1,8 +1,6 @@
 package com.example.panagiotis.marvelcomics.Contract;
 
-
 import com.example.panagiotis.marvelcomics.Constants;
-import com.example.panagiotis.marvelcomics.Realm.ComicsRealm;
 import com.example.panagiotis.marvelcomics.Services.Connection;
 import com.example.panagiotis.marvelcomics.Services.IData;
 import com.example.panagiotis.marvelcomics.pojos.Example;
@@ -14,25 +12,19 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import io.realm.Realm;
-import io.realm.RealmResults;
 
-public class Presenter implements IContract.IPresenter {
-    IContract.IView iView;
+public class Presenter_Details implements IContract.IPresenter_Details  {
+    IContract.IView_details iView_details;
     IData connection;
-    private Realm realm;
 
-    public Presenter(IContract.IView iView) {
-        this.iView = iView;
+    public Presenter_Details(IContract.IView_details iView_details) {
+        this.iView_details = iView_details;
     }
 
-
     @Override
-    public void getComics() {
-
+    public void getById(String id) {
         connection=Connection.getConnection();
-        connection.get_100_comics(100,getHash(),Constants.apikey,getUnixTimeStamp()
-                )
+        connection.get_Details(id,getHash(),Constants.apikey,getUnixTimeStamp())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Example>() {
@@ -42,34 +34,13 @@ public class Presenter implements IContract.IPresenter {
                     }
 
                     @Override
-                    public void onNext(final Example example) {
-                        realm = Realm.getDefaultInstance();
-                        realm.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                realm.delete(ComicsRealm.class);
-                            }
-                        });
-
-                        realm.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                for(int i=0;i<example.getData().getResults().size();i++) {
-                                    ComicsRealm comicsRealm = realm.createObject(ComicsRealm.class);
-                                    comicsRealm.setName(example.getData().getResults().get(i).getTitle());
-                                    comicsRealm.setPrice(example.getData().getResults().get(i).getPrices().get(0).getPrice());
-                                    comicsRealm.setId(example.getData().getResults().get(i).getId());
-                                }
-                            }
-                        });
-
-                        iView.showComics(example);
+                    public void onNext(Example example) {
+                        iView_details.showDetails(example);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        System.out.println("onError");
-                        System.out.println(e.toString());
+
                     }
 
                     @Override
@@ -77,21 +48,12 @@ public class Presenter implements IContract.IPresenter {
 
                     }
                 });
-    }
 
-    @Override
-    public void filterComics(final Double min, final Double max) {
-        realm = Realm.getDefaultInstance();
-        RealmResults<ComicsRealm> results = realm.where(ComicsRealm.class).
-                greaterThanOrEqualTo("price",min).
-                lessThanOrEqualTo("price",max).
-                findAll();
-        iView.showFilterComics(results);
     }
 
     @Override
     public void start() {
-        iView.setPresenter(this);
+        iView_details.setPresenter(this);
     }
 
     private  String getHash() {
