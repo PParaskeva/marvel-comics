@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 fab.setVisibility(View.GONE);
                 fragmentTransfer(new price_fragment());
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
             }
         });
     }

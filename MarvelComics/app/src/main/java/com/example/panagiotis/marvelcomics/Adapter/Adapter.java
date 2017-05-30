@@ -41,7 +41,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        System.out.println(example.getData().getResults().get(position).getTitle());
 //        System.out.println(example
 //                .getData()
 //                .getResults()

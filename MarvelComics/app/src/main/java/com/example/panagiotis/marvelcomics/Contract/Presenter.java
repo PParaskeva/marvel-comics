@@ -29,7 +29,7 @@ public class Presenter implements IContract.IPresenter {
 
     @Override
     public void getComics() {
-
+        iView.showProgressDialog();
         connection=Connection.getConnection();
         connection.get_100_comics(100,getHash(),Constants.apikey,getUnixTimeStamp()
                 )
@@ -68,13 +68,12 @@ public class Presenter implements IContract.IPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        System.out.println("onError");
-                        System.out.println(e.toString());
+                        iView.dismissProgressDialog();
                     }
 
                     @Override
                     public void onComplete() {
-
+                        iView.dismissProgressDialog();
                     }
                 });
     }

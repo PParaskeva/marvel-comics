@@ -1,5 +1,6 @@
 package com.example.panagiotis.marvelcomics.Fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -36,6 +37,7 @@ public class ViewFragment extends Fragment implements IContract.IView {
     Adapter2 adapter2;
     IContract.IPresenter iPresenter;
     Double max,min;
+    private ProgressDialog pDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,8 +59,6 @@ public class ViewFragment extends Fragment implements IContract.IView {
             iPresenter.getComics();
         }
 
-
-        ButterKnife.bind(this,v);
         return v;
     }
 
@@ -72,7 +72,7 @@ public class ViewFragment extends Fragment implements IContract.IView {
 
     @Override
     public void showFilterComics(RealmResults<ComicsRealm> results) {
-        //recyclerView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
         recyclerView2.setVisibility(View.VISIBLE);
         adapter2=new Adapter2(getActivity(),R.layout.row,results,(MainActivity)getActivity());
         recyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -82,12 +82,16 @@ public class ViewFragment extends Fragment implements IContract.IView {
 
     @Override
     public void showProgressDialog() {
-
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Loading...");
+        pDialog.show();
     }
 
     @Override
     public void dismissProgressDialog() {
-
+        if(pDialog.isShowing() || pDialog!=null){
+            pDialog.dismiss();
+        }
     }
 
     @Override

@@ -53,7 +53,7 @@ public class DetailFragment extends Fragment implements IContract.IView_details 
     @Override
     public void showDetails(Example example) {
         title_textView.setText(example.getData().getResults().get(0).getTitle());
-        if(example.getData().getResults().get(0).getDescription().length()!=0)
+        if(example.getData().getResults().get(0).getDescription()!=null)
             description_textView.setText(example.getData().getResults().get(0).getDescription());
         else{
             description_textView.setText("No available description");
